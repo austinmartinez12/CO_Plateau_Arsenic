@@ -3,9 +3,7 @@ library(randomForest)
 library(caret)
 library(tidyverse)
 
-
-
-setwd("/Users/austinmartinez/Documents/GitHub/coPlateauWaterQuality/01_data/CoPlateau_As")
+setwd("/Users/austinmartinez/Documents/GitHub/CO_Plateau_Arsenic/Arsenic/Data")
 
 #Clean up the workspace
 rm(list=ls())
@@ -35,9 +33,9 @@ tunegrid <- expand.grid(mtry = (1:2)) #Change to 1:84 if testing for real, 1:3 w
 
 #this is the more acurate model out put 
 #it was ran on the super computer
-classifier_RF = readRDS("/Users/austinmartinez/Documents/GitHub/coPlateauWaterQuality/03_modelOutputs/01_randomForest/2024-07-25_rf.rds")
+classifier_RF = readRDS("/Users/austinmartinez/Documents/GitHub/CO_Plateau_Arsenic/Arsenic/Data/ModelOutputs/RFC/2024-07-25_rf.rds")
 
-# This model runs in legit 2 seconds
+# This model runs quick. Use for test runs only
 classifier_RF<-train(
   factor(As3Cat) ~ ., 
   data = AsTrain, 

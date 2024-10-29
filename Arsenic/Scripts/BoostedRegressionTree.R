@@ -5,7 +5,7 @@ library(readr)
 library(gbm)
 
 
-setwd("/Users/austinmartinez/Documents/GitHub/coPlateauWaterQuality/01_data/CoPlateau_As")
+setwd("/Users/austinmartinez/Documents/GitHub/CO_Plateau_Arsenic/Arsenic/Data")
 
 rm(list=ls())
 
@@ -30,9 +30,9 @@ AsTest$As3Cat <- as.factor(AsTest$As3Cat)
 
 #this is the more acurate model output 
 #it was ran on the super computer
-Arsenic_boost = readRDS("/Users/austinmartinez/Documents/GitHub/coPlateauWaterQuality/03_modelOutputs/02_boostedRegTrees/2024-07-25_as_brt.rds")
+Arsenic_boost = readRDS("/Users/austinmartinez/Documents/GitHub/CO_Plateau_Arsenic/Arsenic/Data/ModelOutputs/BRT/2024-07-25_as_brt.rds")
 
-#this runs in 5 mims
+#this runs in 5 minutes. Use for test runs only
 Arsenic_boost <- train(
   As3Cat ~ .,  # Specify the target variable as As3Cat
   data = AsTrain,  
@@ -57,13 +57,6 @@ summary(Arsenic_boost)
 #Evaluate the model on the test set
 predictions <- predict(Arsenic_boost, newdata = AsTest)
 conf_matrix = confusionMatrix(predictions, AsTest$As3Cat)
-
-# training data accuracy and kappa
-# AvgAcc = accuracy  Avgkap = kappa
-Arsenic_boost$resample %>%
-  arrange(Resample) %>%
-  mutate (AvgAcc = mean(Accuracy)) %>%
-  mutate (Avgkap = mean(Kappa))
 
 # Extract sensitivity and specificity
 sensitivity <- conf_matrix$byClass[, "Sensitivity"]

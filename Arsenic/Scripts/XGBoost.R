@@ -6,7 +6,7 @@ library(tidyverse) # general utility functions
 library(smotefamily) #use to balance the training dataset
 
 
-setwd("/Users/austinmartinez/Documents/GitHub/coPlateauWaterQuality/01_data/CoPlateau_As")
+setwd("/Users/austinmartinez/Documents/GitHub/CO_Plateau_Arsenic/Arsenic/Data")
 
 #Clean up the workspace
 rm(list=ls())
@@ -45,13 +45,12 @@ train_y<-AsTrain[,207]
 test_x<-data.matrix(AsTest)
 test_y<-AsTest[,207]
 
-#5 folds
-#model =  readRDS("/Users/austinmartinez/Documents/GitHub/coPlateauWaterQuality/03_modelOutputs/03_xgb/2024-07-26_As3Cat_cv5_xgb.rds")
-
+#this is the more acurate model output 
+#it was ran on the super computer
 #10 folds
-model =  readRDS("/Users/austinmartinez/Documents/GitHub/coPlateauWaterQuality/03_modelOutputs/03_xgb/2024-07-29_As3Cat_cv10_xgb.rds")
+model =  readRDS("/Users/austinmartinez/Documents/GitHub/CO_Plateau_Arsenic/Arsenic/Data/ModelOutputs/XGBoost/2024-07-29_As3Cat_cv10_xgb.rds")
 
-#This model took ~5 minutes to run on my laptop 
+#This model only takes 5 minutes to run. Use for test runs only
 model<-train(
   factor(As3Cat) ~ ., 
   data = AsTrain, 
