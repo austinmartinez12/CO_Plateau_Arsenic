@@ -35,7 +35,7 @@ tunegrid <- expand.grid(mtry = (1:2)) #Change to 1:84 if testing for real, 1:3 w
 #it was ran on the super computer
 classifier_RF = readRDS("/Users/austinmartinez/Documents/GitHub/CO_Plateau_Arsenic/Arsenic/Data/ModelOutputs/RFC/2024-07-25_rf.rds")
 
-# This model runs quick. Use for test runs only
+# Fitting Random Forest to the train dataset 
 classifier_RF<-train(
   factor(As3Cat) ~ ., 
   data = AsTrain, 
