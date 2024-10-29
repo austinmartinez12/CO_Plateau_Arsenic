@@ -50,21 +50,22 @@ test_y<-AsTest[,207]
 #10 folds
 model =  readRDS("/Users/austinmartinez/Documents/GitHub/CO_Plateau_Arsenic/Arsenic/Data/ModelOutputs/XGBoost/2024-07-29_As3Cat_cv10_xgb.rds")
 
-#This model only takes 5 minutes to run. Use for test runs only
+#XGBoost
 model<-train(
   factor(As3Cat) ~ ., 
   data = AsTrain, 
   metric = "Accuracy",
   method = "xgbTree",
-  trControl = trainControl(method="cv", number = 10),
+  trControl = trainControl(method="cv", number = 10, verboseIter = TRUE),
+  na.action = 'na.pass',
   tuneGrid = expand.grid(
-    nrounds = 500,
-    max_depth = c(10),
-    eta = c(0.01),  #Shrinkage
+    nrounds = seq(from = 250, to = 1000, by = 250),
+    max_depth = seq(from = 2, to = 14, by = 2),
+    eta = seq(from = 0.005, to = 0.0125, by = 0.0025),  #Shrinkage
     gamma = 0,
-    colsample_bytree = c(0.75),
+    colsample_bytree = seq(from = 0.25, to = 0.75, by = 0.25),
     min_child_weight = 1,
-    subsample = c(0.5)
+    subsample = seq(from = 0.25, to = 0.75, by = 0.25)
   )
 )
 
