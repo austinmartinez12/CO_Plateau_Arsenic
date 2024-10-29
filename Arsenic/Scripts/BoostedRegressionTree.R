@@ -32,24 +32,22 @@ AsTest$As3Cat <- as.factor(AsTest$As3Cat)
 #it was ran on the super computer
 Arsenic_boost = readRDS("/Users/austinmartinez/Documents/GitHub/CO_Plateau_Arsenic/Arsenic/Data/ModelOutputs/BRT/2024-07-25_as_brt.rds")
 
-#this runs in 5 minutes. Use for test runs only
-Arsenic_boost <- train(
+#Fitting Boosted Regression Tree to the train dataset 
+  Arsenic_boost <- train(
   As3Cat ~ .,  # Specify the target variable as As3Cat
   data = AsTrain,  
   method = "gbm", 
   trControl = trainControl(
     method = "cv",
-    number = 2,
+    number = 10,    #Use 10 fold for real runs
     verboseIter = TRUE  # Enable verbose output for troubleshooting
   ),
   tuneGrid = expand.grid(
-    "n.trees" = seq(from = 1, to = 21, by = 5),  #from USGS paper, might want to scale down for our work here
-    "interaction.depth" = seq(from = 2, to = 16, by = 4),  #adapted from USGS paper, might want to scale down for our work here
-    "shrinkage" = seq(from =0.004, 0.008, by = 0.004),  #adapted from USGS paper, might want to scale down for our work here
+    "n.trees" = seq(from = 100, to = 500, by = 10),  #from USGS paper, might want to scale down for our work here
+    "interaction.depth" = seq(from = 2, to = 16, by = 2),  #adapted from USGS paper, might want to scale down for our work here
+    "shrinkage" = seq(from = 0.004, to = 0.012, by = 0.002),  #adapted from USGS paper, might want to scale down for our work here
     "n.minobsinnode" = 8) #from USGS paper, might want to scale down for our work here
 )
-
-
 
 # Check the results
 summary(Arsenic_boost)
